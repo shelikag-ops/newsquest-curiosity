@@ -1,6 +1,6 @@
 # NewsQuest: GitHub Pages + Google Sheets
 
-This folder contains the prepared Issue 334 website and Google Apps Script backend. The website is published as a preview. Google Sheets answer collection is not connected yet. The originals in Downloads are unchanged.
+This folder contains the prepared Issue 334 website and Google Apps Script backend. The website is published with a deployed Google Apps Script response backend. The originals in Downloads are unchanged.
 
 ## Connect the Sheet
 
