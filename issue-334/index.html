@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NewsQuest Issue 334: Take-home challenges</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+/* To set up links and names, edit CONFIG at the top of the script below. */
+:root{
+  --ink:#172B4D; --ink-soft:#4A5B78; --paper:#FFFFFF; --bg:#EAF0F7;
+  --line:#C9D5E4; --hi:#FFE066; --blue:#2F6FED; --green:#1C9B72; --red:#D9434A; --violet:#7A4BD1; --orange:#E07A1F;
+  --display:"Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", Verdana, system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 var(--body)}
+img{max-width:100%}
+a{color:var(--blue)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{max-width:860px;margin:0 auto;padding:0 18px}
+h1,h2,h3{font-family:var(--display);line-height:1.1;margin:0}
+h2{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800}
+h3{font-size:1.2rem;font-weight:600}
+p{margin:.6em 0}
+.muted{color:var(--ink-soft)}
+
+/* ---------- Hero: the press pass ---------- */
+.hero{padding:34px 0 20px}
+.hero-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:center}
+@media (max-width:720px){.hero-grid{grid-template-columns:1fr}}
+.hero h1{font-size:clamp(2.2rem,7vw,3.6rem);font-weight:800;letter-spacing:-.02em}
+.hero .sub{font-size:1.1rem;color:var(--ink-soft);max-width:34ch}
+.pass{background:var(--paper);border-radius:18px;border:2px solid var(--ink);position:relative;padding:40px 22px 20px;box-shadow:6px 6px 0 var(--ink);transform:rotate(-1.5deg)}
+.pass::before{content:"";position:absolute;top:12px;left:50%;width:54px;height:10px;margin-left:-27px;border-radius:6px;background:var(--bg);border:2px solid var(--ink)}
+.pass-top{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--display);font-weight:800;font-size:1.25rem}
+.pass-top span:last-child{font-size:.9rem;font-weight:600;color:var(--ink-soft)}
+.pass label{display:block;font-size:.85rem;color:var(--ink-soft);margin-top:14px}
+.pass input{width:100%;border:0;border-bottom:2px dashed var(--line);padding:6px 0;font-family:var(--display);font-size:1.5rem;font-weight:600;background:transparent}
+.pass input:focus{outline:none;border-bottom-color:var(--blue)}
+.points{display:flex;align-items:center;gap:12px;margin-top:16px;background:var(--hi);border-radius:12px;padding:10px 14px}
+.points b{font-family:var(--display);font-size:2.4rem;line-height:1}
+.points small{display:block;line-height:1.2}
+
+/* ---------- Parent note & nav ---------- */
+.note{background:var(--paper);border-left:6px solid var(--hi);border-radius:10px;padding:14px 18px;margin:18px 0}
+.note h3{margin-bottom:4px}
+nav.missions{position:sticky;top:0;z-index:5;background:rgba(234,240,247,.95);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+nav.missions ul{list-style:none;margin:0 auto;padding:10px 18px;display:flex;gap:8px;overflow-x:auto;max-width:860px}
+nav.missions a{display:flex;align-items:center;gap:6px;white-space:nowrap;text-decoration:none;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:999px;padding:6px 12px;font-size:.92rem}
+nav.missions a .tick{display:none;color:var(--green);font-weight:700}
+nav.missions a.done{border-color:var(--green)}
+nav.missions a.done .tick{display:inline}
+
+/* ---------- Mission sections ---------- */
+section.mission{background:var(--paper);border-radius:16px;margin:26px 0;padding:24px 22px 26px;border-top:8px solid var(--c,var(--blue));scroll-margin-top:70px}
+.mhead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.tag{display:inline-block;font-size:.85rem;background:var(--bg);border-radius:999px;padding:3px 10px;margin-top:8px;color:var(--ink-soft)}
+.earned{font-family:var(--display);font-weight:600;background:var(--bg);border-radius:10px;padding:6px 12px;white-space:nowrap}
+.btn{border:2px solid var(--ink);background:var(--paper);border-radius:10px;padding:9px 16px;cursor:pointer;font-weight:700}
+.btn:hover{background:var(--bg)}
+.btn.primary{background:var(--ink);color:#fff}
+.btn.primary:hover{background:#243d66}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+input.text,textarea,select{border:2px solid var(--line);border-radius:10px;padding:9px 12px;background:#fff;width:100%}
+input.text:focus,textarea:focus,select:focus{border-color:var(--blue);outline:none}
+.feedback{margin-top:10px;padding:10px 14px;border-radius:10px;display:none}
+.feedback.show{display:block}
+.feedback.good{background:#E3F6EE}
+.feedback.try{background:#FFF1E0}
+
+/* Case files */
+.cases{display:grid;gap:16px;margin-top:16px}
+.case{border:2px solid var(--line);border-radius:14px;padding:16px 18px;position:relative}
+.case .num{font-family:var(--display);font-weight:800;color:var(--c);font-size:.95rem}
+.hints{margin:10px 0 0;padding-left:20px}
+.hints li{margin:4px 0}
+.answer{display:none;background:var(--bg);border-radius:10px;padding:12px 14px;margin-top:12px}
+.answer.show{display:block}
+.answer strong{font-family:var(--display);font-size:1.2rem}
+.choices{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.choice{border:2px solid var(--line);border-radius:10px;padding:8px 14px;background:#fff;cursor:pointer;font-weight:700}
+.choice.right{border-color:var(--green);background:#E3F6EE}
+.choice.wrong{border-color:var(--red);background:#FDECEC}
+.interview{border:2px dashed var(--c);border-radius:14px;padding:14px 18px;margin-top:18px}
+
+/* Timeline */
+.tl{list-style:none;padding:0;margin:16px 0 0;counter-reset:step}
+.tl li{display:flex;align-items:center;gap:10px;border:2px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0;background:#fff;counter-increment:step;cursor:grab}
+.tl li::before{content:counter(step);font-family:var(--display);font-weight:800;width:1.6em;text-align:center;color:var(--ink-soft)}
+.tl li.dragging{opacity:.5}
+.tl li.ok{border-color:var(--green);background:#E3F6EE}
+.tl li.no{border-color:var(--orange);background:#FFF1E0}
+.tl .letter{font-family:var(--display);font-weight:800;background:var(--c);color:#fff;border-radius:8px;min-width:34px;text-align:center;padding:2px 0}
+.tl .txt{flex:1}
+.tl .when{display:block;font-size:.85rem;color:var(--ink-soft)}
+.tl .when.hidden{display:none}
+.mv{display:flex;flex-direction:column;gap:4px}
+.mv button{border:1.5px solid var(--line);background:var(--bg);border-radius:6px;width:34px;height:28px;cursor:pointer;line-height:1}
+
+/* Two truths */
+.round{margin-top:16px}
+.stmt{display:block;width:100%;text-align:left;border:2px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;background:#fff;cursor:pointer}
+.stmt:hover{border-color:var(--c)}
+.stmt.fib{border-color:var(--red);background:#FDECEC}
+.stmt.true{border-color:var(--green);background:#E3F6EE}
+.progress{font-family:var(--display);font-weight:600;color:var(--ink-soft)}
+
+/* Stack */
+.stackq{border:2px solid var(--line);border-radius:14px;padding:16px 18px;margin-top:14px}
+.stackq .row input{max-width:130px}
+.tower{display:flex;align-items:flex-end;gap:2px;flex-wrap:wrap;min-height:10px;margin-top:10px}
+.tower span{font-size:22px;line-height:1}
+.chart{margin-top:18px}
+.bar{display:flex;align-items:center;gap:10px;margin:6px 0;font-size:.92rem}
+.bar .lbl{width:170px;flex-shrink:0}
+.bar .fill{height:22px;border-radius:6px;background:var(--c)}
+@media (max-width:560px){.bar .lbl{width:110px}}
+
+/* Robot + wonder */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{border:2px solid var(--line);border-radius:999px;padding:6px 12px;background:#fff;cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--c);background:var(--c);color:#fff}
+.field{margin-top:14px}
+.field label{display:block;font-weight:700;margin-bottom:4px}
+.card-out{display:none;margin-top:16px;border:2px solid var(--ink);border-radius:14px;padding:16px 18px;background:#FFFBEA;white-space:pre-wrap}
+.card-out.show{display:block}
+.starters{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.starters button{border:1.5px dashed var(--c);background:#fff;border-radius:8px;padding:5px 10px;cursor:pointer}
+
+footer{padding:30px 0 50px;text-align:center;color:var(--ink-soft);font-size:.95rem}
+.scorecard{background:var(--paper);border:2px solid var(--ink);border-radius:16px;padding:20px;margin-top:24px}
+.scorecard table{width:100%;border-collapse:collapse;margin-top:10px}
+.scorecard td{padding:6px 0;border-bottom:1px solid var(--line)}
+.scorecard td:last-child{text-align:right;font-weight:700}
+/* ---------- Step 1: sign-in gate ---------- */
+.gate{background:var(--paper);border-radius:18px;border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink);padding:26px 22px;margin:10px 0 40px}
+.gate h2{margin-bottom:6px}
+.step{display:inline-block;font-family:var(--display);font-weight:600;background:var(--hi);border-radius:8px;padding:2px 10px;margin-bottom:10px}
+.roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:16px}
+.roster button{border:2px solid var(--line);background:#fff;border-radius:12px;padding:12px 10px;font-family:var(--display);font-weight:600;font-size:1.05rem;cursor:pointer}
+.roster button:hover,.roster button[aria-pressed="true"]{border-color:var(--blue);background:#EAF1FE}
+.other{margin-top:14px}
+.other input{max-width:320px}
+.pass .who{font-family:var(--display);font-size:1.6rem;font-weight:600;border-bottom:2px dashed var(--line);padding:4px 0}
+.switch{background:none;border:0;color:var(--blue);text-decoration:underline;cursor:pointer;padding:0;font-size:.9rem;margin-top:6px}
+.sync{display:flex;align-items:center;gap:8px;font-size:.88rem;margin-top:10px;color:var(--ink-soft)}
+.sync i{width:10px;height:10px;border-radius:50%;background:var(--line);display:inline-block}
+.sync.ok i{background:var(--green)} .sync.busy i{background:var(--hi)} .sync.off i{background:var(--orange)}
+.upload{margin-top:12px}
+.upload input[type=file]{margin-top:6px}
+.upload img{display:block;max-height:160px;border-radius:10px;margin-top:8px;border:2px solid var(--line)}
+.quizq{border:2px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:12px}
+.wall{margin-top:16px;display:grid;gap:12px}
+.post{border:2px solid var(--line);border-radius:14px;padding:12px 14px}
+.post .by{font-size:.88rem;color:var(--ink-soft)}
+.post .q{font-weight:700;margin:4px 0}
+.post .reps{margin:6px 0 0;padding-left:18px;font-size:.95rem}
+.post .reply-row{display:flex;gap:8px;margin-top:8px}
+.post .reply-row input{flex:1}
+.empty{color:var(--ink-soft);font-style:italic}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>NewsQuest take-home challenges</h1>
+      <p class="sub">Seven missions from Issue 334 of The Week Junior: the 9/11 helpers, the Nepal flood, and robot doctors. Earn press points and bring your score to our next session.</p>
+    </div>
+    <div class="pass" aria-label="Your press pass">
+      <div class="pass-top"><span>Press pass</span><span>Issue 334</span></div>
+      <label>Reporter</label>
+      <div class="who" id="whoName">Not signed in yet</div>
+      <button class="switch" id="switchBtn" hidden>Not you? Switch reporter</button>
+      <div class="points" aria-live="polite"><b id="total">0</b><small>press points<br>earned so far</small></div>
+      <div class="sync" id="sync"><i></i><span>Sign in to start</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ========== STEP 1: SIGN IN ========== -->
+<div class="wrap" id="gateWrap">
+  <section class="gate" id="gate">
+    <span class="step">Step 1</span>
+    <h2>Who's reporting today?</h2>
+    <p>Tap your name to unlock the missions. Your answers go straight to your club leader, so pick your own name.</p>
+    <div class="roster" id="roster"></div>
+    <div class="other" id="otherBox" hidden>
+      <label for="otherName"><strong>Type your first name and last initial</strong></label>
+      <div class="row"><input class="text" id="otherName" placeholder="e.g. Maya K" maxlength="40"><button class="btn primary" id="otherGo">Start my missions</button></div>
+    </div>
+  </section>
+</div>
+
+<!-- ========== STEP 2: MISSIONS (locked until sign-in) ========== -->
+<div id="unlocked" hidden>
+
+<div class="wrap">
+  <div class="note">
+    <h3>A note for parents</h3>
+    <p>We ran out of time for our main stories on Wednesday, so here they are as games. Every mission is optional, and kids can do them in any order, a few at a time. Most take 10 to 15 minutes. Answers save automatically for your child's club leader.</p>
+    <p>The 9/11 case files focus on the helpers, but the topic can feel heavy. You may want to preview Mission 2 and do it together. The block tower in Mission 5 needs a grown-up nearby. If you upload a photo, please show only the drawing or tower, not your child's face.</p>
+  </div>
+</div>
+
+<nav class="missions" aria-label="Missions">
+  <ul>
+    <li><a href="#menti" data-m="menti">📊 Quiz <span class="tick">✓</span></a></li>
+    <li><a href="#cases" data-m="cases">🗂️ Case files <span class="tick">✓</span></a></li>
+    <li><a href="#timeline" data-m="timeline">⏳ Timeline <span class="tick">✓</span></a></li>
+    <li><a href="#fib" data-m="fib">🏔️ Truths &amp; fib <span class="tick">✓</span></a></li>
+    <li><a href="#stack" data-m="stack">🏢 Stack it <span class="tick">✓</span></a></li>
+    <li><a href="#robot" data-m="robot">🤖 Robot pitch <span class="tick">✓</span></a></li>
+    <li><a href="#wonder" data-m="wonder">❓ Wonder Wall <span class="tick">✓</span></a></li>
+  </ul>
+</nav>
+
+<main class="wrap">
+
+<section class="mission" id="menti" style="--c:var(--blue)">
+  <div class="mhead">
+    <div><h2>Mission 1: The Issue 334 quiz</h2><span class="tag">About 10 minutes</span></div>
+    <div class="earned" data-earned="menti">0 pts</div>
+  </div>
+  <div id="quizBox"></div>
+  <div id="waygroundBox" hidden>
+    <p>Play the WayGround quiz too. Use your real first name when it asks.</p>
+    <div class="row"><a class="btn" id="waygroundLink" href="#" target="_blank" rel="noopener">Open the WayGround quiz</a><button class="btn" id="wgDone">I finished WayGround (+3)</button></div>
+    <div class="feedback good" id="wgFb">Nice work! 3 points added.</div>
+  </div>
+</section>
+
+<section class="mission" id="cases" style="--c:var(--red)">
+  <div class="mhead">
+    <div><h2>Mission 2: 9/11 mystery case files</h2><span class="tag">About 15 minutes</span></div>
+    <div class="earned" data-earned="cases">0 pts</div>
+  </div>
+  <p>It has been 25 years since September 11, 2001. These four mysteries are about the helpers. Make a guess first, then open hints one at a time. The fewer hints you use, the more points you earn: 4 points with no hints, down to 1.</p>
+  <p class="muted">This story can feel heavy. It's okay to take a break or do it with a grown-up.</p>
+  <div class="cases" id="caseList"></div>
+  <div class="interview">
+    <h3>Reporter interview: bring this to the next session</h3>
+    <p>Ask a grown-up at home: <em>"If 7,000 strangers suddenly landed in our town tonight, what could we do to help?"</em> Write down one idea to share with the group.</p>
+    <textarea id="interviewNote" rows="2" placeholder="My grown-up said…"></textarea>
+    <div class="row"><button class="btn" id="interviewDone">Send my interview (+2 bonus)</button></div>
+    <div class="feedback good" id="interviewFb">Sent. Be ready to share it on Wednesday!</div>
+  </div>
+</section>
+
+<section class="mission" id="timeline" style="--c:var(--green)">
+  <div class="mhead">
+    <div><h2>Mission 3: The day the mountain moved</h2><span class="tag">About 10 minutes</span></div>
+    <div class="earned" data-earned="timeline">0 pts</div>
+  </div>
+  <p>These eight moments from the Nepal and Tibet flood are all mixed up. Drag the cards, or use the arrows, to put them in order from first to last. The time labels are hidden to start. Need help? Show them.</p>
+  <ol class="tl" id="tlList"></ol>
+  <div class="row">
+    <button class="btn primary" id="tlCheck">Check my order</button>
+    <button class="btn" id="tlHints">Show the time labels</button>
+    <button class="btn" id="tlShuffle">Mix them up again</button>
+  </div>
+  <div class="feedback" id="tlFb"></div>
+</section>
+
+<section class="mission" id="fib" style="--c:var(--violet)">
+  <div class="mhead">
+    <div><h2>Mission 4: Two truths and a fib, Himalaya edition</h2><span class="tag">About 10 minutes</span></div>
+    <div class="earned" data-earned="fib">0 pts</div>
+  </div>
+  <p>Each round has two true facts and one fib. Tap the one you think is the fib. You get 2 points if you find it on the first try.</p>
+  <div class="round" id="fibRound"></div>
+  <div class="row"><button class="btn primary" id="fibNext" disabled>Next round</button><span class="progress" id="fibProg"></span></div>
+</section>
+
+<section class="mission" id="stack" style="--c:var(--orange)">
+  <div class="mhead">
+    <div><h2>Mission 5: Stack the skyscrapers</h2><span class="tag">About 15 minutes, plus building time</span></div>
+    <div class="earned" data-earned="stack">0 pts</div>
+  </div>
+  <p>The Empire State Building in New York is <strong>1,454 feet</strong> tall. How many Empire State Buildings would you have to stack on top of each other to reach these places? A guess within 1 of the answer counts. You can use a calculator, or ask a grown-up to help with the division.</p>
+  <div id="stackList"></div>
+  <div class="chart" id="chart"></div>
+  <div class="interview" style="--c:var(--orange)">
+    <h3>Build it at home</h3>
+    <p>Choose one block, book, or Lego brick to be your Empire State Building. Build a tower as tall as Mount Everest using your answer above, then add a photo.</p>
+    <div class="upload"><label for="towerPhoto"><strong>Photo of my tower (optional)</strong></label><br><input type="file" id="towerPhoto" accept="image/*"><img id="towerPrev" alt="" hidden></div>
+    <div class="row"><button class="btn" id="buildDone">I built my tower (+2 bonus)</button></div>
+    <div class="feedback good" id="buildFb">Great building! 2 bonus points added.</div>
+  </div>
+</section>
+
+<section class="mission" id="robot" style="--c:#0E8FB0">
+  <div class="mhead">
+    <div><h2>Mission 6: Robot job pitch</h2><span class="tag">About 15 minutes</span></div>
+    <div class="earned" data-earned="robot">0 pts</div>
+  </div>
+  <p>Doctors are already doing surgery with robot helpers. Now it's your turn to invent a robot. Fill in your pitch and draw your robot on paper.</p>
+  <div class="field"><label>Where will your robot work?</label>
+    <div class="chips" id="robotWhere" role="group" aria-label="Where will your robot work">
+      <button class="chip" aria-pressed="false">🏠 Home</button><button class="chip" aria-pressed="false">🏫 School</button><button class="chip" aria-pressed="false">🏥 Hospital</button><button class="chip" aria-pressed="false">🌍 Planet &amp; animals</button><button class="chip" aria-pressed="false">🚀 Space</button><button class="chip" aria-pressed="false">✨ Somewhere else</button>
+    </div>
+  </div>
+  <div class="field"><label for="rName">Robot name</label><input class="text" id="rName" maxlength="80" placeholder="e.g. Sparkle Scrubber 3000"></div>
+  <div class="field"><label for="rJob">What job does it do?</label><input class="text" id="rJob" maxlength="300" placeholder="It helps by…"></div>
+  <div class="field"><label for="rPart">What special part does it have to do that job?</label><input class="text" id="rPart" maxlength="300" placeholder="e.g. tiny camera fingers, like the surgery robots"></div>
+  <div class="field"><label for="rNever">Think deeper: what is one job a robot should never do? Why?</label><input class="text" id="rNever" maxlength="300" placeholder="A robot should never… because…"></div>
+  <div class="upload"><label for="robotPhoto"><strong>Photo of my robot drawing (optional)</strong></label><br><input type="file" id="robotPhoto" accept="image/*"><img id="robotPrev" alt="" hidden></div>
+  <div class="row"><button class="btn primary" id="robotMake">Send my pitch</button></div>
+  <div class="card-out" id="robotCard"></div>
+</section>
+
+<section class="mission" id="wonder" style="--c:#C2410C">
+  <div class="mhead">
+    <div><h2>Mission 7: The Wonder Wall</h2><span class="tag">About 10 minutes</span></div>
+    <div class="earned" data-earned="wonder">0 pts</div>
+  </div>
+  <p>Good reporters ask "why?" and "how do we know?" Write one question that the 9/11 or Nepal story made you wonder about. It can be a question nobody knows the answer to yet.</p>
+  <div class="field"><label for="wStory">Which story?</label>
+    <select id="wStory"><option>9/11</option><option>Nepal floods</option><option>Robot doctors</option><option>Something else</option></select>
+  </div>
+  <div class="field"><label for="wQ">My question</label>
+    <div class="starters" id="starters"><button>Why did…</button><button>How do we know…</button><button>What would happen if…</button><button>Who decided…</button></div>
+    <textarea id="wQ" rows="2" maxlength="500" style="margin-top:8px" placeholder="Tap a starter above or type your own"></textarea>
+  </div>
+  <div class="row"><button class="btn primary" id="wMake">Post my question</button></div>
+  <div class="feedback good" id="wFb"></div>
+  <div class="interview" style="--c:#C2410C">
+    <h3>Our Wonder Wall</h3>
+    <p>Read your teammates' questions and reply to one: an idea, a fact, or "I wonder that too because…" Your first reply earns 3 points.</p>
+    <div class="row"><button class="btn" id="wallRefresh">Show the newest questions</button></div>
+    <div class="wall" id="wall"><p class="empty">Questions will show up here.</p></div>
+  </div>
+</section>
+
+<section class="scorecard" id="score">
+  <h2>My score card</h2>
+  <p class="muted">When the save status says all submitted answers are saved, your club leader can see them. You can also take a screenshot to show at the next session.</p>
+  <table id="scoreTable"></table>
+</section>
+
+</main>
+</div>
+
+<footer>NewsQuest reporters' club. Stories from The Week Junior, Issue 334.</footer>
+
+<script>
+/* ============================================================
+   CONFIG: the only part you need to edit
+   ============================================================ */
+const CONFIG = {
+  // Paste your Apps Script Web app URL here (ends in /exec)
+  endpoint: "",
+  issue: "334",
+
+  // Optional: WayGround join link. Leave "" to hide the button.
+  wayground: "",
+
+  // Names kids tap to sign in. Check the spellings.
+  roster: ["Amav", "Arika", "Danny", "Jonathan", "Kabir", "Kashika", "Monica", "Prisha", "Sarah", "Sehaj", "Umair"],
+
+  // Quiz questions for Mission 1.
+  // Multiple choice: { q: "Question?", choices: ["A", "B", "C"], answer: 1 }   (answer = position, starting at 0)
+  // Open answer:     { q: "Question?" }
+  quiz: []
+};
+
+/* ---------- saved progress, one record per reporter ---------- */
+const KEY = "newsquest-334-v2";
+let store;
+try { store = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { store = {}; }
+store.reporters = store.reporters || {};
+store.queue = store.queue || [];
+let storageFailed = false;
+function persist(){ try { localStorage.setItem(KEY, JSON.stringify(store)); storageFailed = false; } catch (e) { storageFailed = true; } }
+let state = null;   // the signed-in reporter's record
+
+const $ = id => document.getElementById(id);
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+function show(id, cls, html){ const f = $(id); f.className = "feedback show " + (cls || "good"); if (html) f.innerHTML = html; }
+
+/* ---------- sending answers to the Google Sheet ---------- */
+function setSync(kind, text){ const s = $("sync"); s.className = "sync " + kind; s.querySelector("span").textContent = text; }
+const sessionId = uid();
+function record(mission, item, answer, extra){
+  const ev = Object.assign({ id: uid(), t: new Date().toISOString(), reporter: store.current, issue: CONFIG.issue, session: sessionId, scores: scores(), mission, item, answer }, extra || {});
+  store.queue.push(ev); persist(); setTimeout(flush, 50);
+}
+function scores(){
+  const s = { total: 0 };
+  for (const m in MAX){ s[m] = missionTotal(m); s.total += s[m]; }
+  return s;
+}
+let flushing = false;
+async function flush(){
+  if (!CONFIG.endpoint){ setSync("off", "Setup needed: answers stay on this device"); return; }
+  if (flushing) return;
+  if (!store.queue.length){ setSync("ok", "All submitted answers saved"); return; }
+  flushing = true;
+  setSync("busy", "Saving answers…");
+  const batch = store.queue.slice(0, 5);
+  const body = JSON.stringify({ events: batch });
+  let confirmed = new Set();
+  try {
+    const response = await fetch(CONFIG.endpoint, {
+      method: "POST", headers: { "Content-Type": "text/plain;charset=UTF-8" },
+      body, redirect: "follow", signal: AbortSignal.timeout(45000)
+    });
+    const result = await response.json();
+    if (!result.ok || !Array.isArray(result.saved)) throw new Error("Not confirmed");
+    confirmed = new Set(result.saved);
+  } catch (error) {
+    // Never discard an answer on the basis of an opaque no-cors response.
+    // A failed response can follow a successful write; retries use the same IDs.
+  } finally {
+    store.queue = store.queue.filter(event => !confirmed.has(event.id));
+    persist();
+    flushing = false;
+    setSync(store.queue.length ? "off" : "ok", store.queue.length
+      ? `${store.queue.length} answers waiting for confirmation. ${storageFailed ? "Keep this page open; device storage is full." : "Keep this browser's data; we will retry automatically."}`
+      : "All submitted answers saved");
+  }
+  if (confirmed.size && store.queue.length) setTimeout(flush, 100);
+}
+window.addEventListener("online", flush);
+setInterval(flush, 30000);
+
+/* shrink photos before sending */
+function readPhoto(input, preview){
+  return new Promise(resolve => {
+    const f = input.files && input.files[0]; if (!f) return resolve("");
+    const img = new Image(), url = URL.createObjectURL(f);
+    img.onload = () => {
+      const scale = Math.min(1, 1000 / Math.max(img.width, img.height));
+      const c = document.createElement("canvas"); c.width = Math.round(img.width*scale); c.height = Math.round(img.height*scale);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      const data = c.toDataURL("image/jpeg", 0.8); URL.revokeObjectURL(url);
+      if (preview){ preview.src = data; preview.hidden = false; }
+      resolve(data);
+    };
+    img.onerror = () => resolve("");
+    img.src = url;
+  });
+}
+
+/* ---------- points ---------- */
+const MAX = { menti: 0, cases: 18, timeline: 10, fib: 12, stack: 11, robot: 5, wonder: 6 };
+const NAMES = { menti: "Issue 334 quiz", cases: "9/11 case files", timeline: "Timeline sort", fib: "Two truths and a fib", stack: "Stack the skyscrapers", robot: "Robot job pitch", wonder: "Wonder Wall" };
+function missionTotal(m){ return Object.values((state && state.pts[m]) || {}).reduce((a, b) => a + b, 0); }
+function setPts(m, sub, v){
+  state.pts[m] = state.pts[m] || {};
+  const before = state.pts[m][sub] || 0;
+  state.pts[m][sub] = Math.max(before, v);
+  persist(); render();
+  return state.pts[m][sub] - before;
+}
+function render(){
+  let total = 0, rows = "";
+  for (const m in MAX){
+    const t = missionTotal(m); total += t;
+    const el = document.querySelector(`[data-earned="${m}"]`); if (el) el.textContent = MAX[m] ? `${t} / ${MAX[m]} pts` : `${t} pts`;
+    const nav = document.querySelector(`nav a[data-m="${m}"]`); if (nav) nav.classList.toggle("done", t > 0);
+    if (m === "menti" && !MAX.menti) continue;
+    rows += `<tr><td>${NAMES[m]}</td><td>${t}${MAX[m] ? " / " + MAX[m] : ""}</td></tr>`;
+  }
+  $("total").textContent = total;
+  $("scoreTable").innerHTML = `<tr><td><strong>${escapeHtml(store.current || "")}</strong></td><td>${total} press points</td></tr>` + rows;
+}
+
+/* ============================================================
+   STEP 1: sign in
+   ============================================================ */
+function signIn(name){
+  name = name.trim().replace(/\s+/g, " ").slice(0, 40);
+  if (!name) return;
+  store.current = name;
+  store.reporters[name] = store.reporters[name] || { pts: {}, data: {} };
+  persist();
+  if (!store.reporters[name].started){ store.reporters[name].started = true; persist(); state = store.reporters[name]; record("start", "Signed in", name); }
+  location.hash = ""; location.reload();
+}
+const roster = $("roster");
+CONFIG.roster.forEach(n => { const b = document.createElement("button"); b.textContent = n; b.onclick = () => signIn(n); roster.appendChild(b); });
+const other = document.createElement("button"); other.textContent = "My name isn't here"; other.style.fontSize = ".95rem";
+other.onclick = () => { $("otherBox").hidden = false; $("otherName").focus(); };
+roster.appendChild(other);
+$("otherGo").onclick = () => { const v = $("otherName").value; if (v.trim().length >= 2) signIn(v); else $("otherName").focus(); };
+$("otherName").addEventListener("keydown", e => { if (e.key === "Enter") $("otherGo").click(); });
+$("switchBtn").onclick = () => { store.current = ""; persist(); location.reload(); };
+
+if (store.current && store.reporters[store.current]){
+  state = store.reporters[store.current];
+  state.data = state.data || {};
+  $("gateWrap").hidden = true; $("unlocked").hidden = false;
+  $("whoName").textContent = store.current; $("switchBtn").hidden = false;
+  initMissions(); render(); flush();
+}
+
+/* ============================================================
+   STEP 2: missions
+   ============================================================ */
+function initMissions(){
+  const D = state.data;
+
+  /* ---------- Mission 1: quiz ---------- */
+  const quizBox = $("quizBox");
+  if (CONFIG.quiz.length){
+    MAX.menti = CONFIG.quiz.length;
+    D.quiz = D.quiz || {};
+    CONFIG.quiz.forEach((q, i) => {
+      const d = document.createElement("div"); d.className = "quizq";
+      d.innerHTML = `<h3>${i+1}. ${escapeHtml(q.q)}</h3>`;
+      const fb = document.createElement("div"); fb.className = "feedback";
+      if (q.choices){
+        const wrap = document.createElement("div"); wrap.className = "choices";
+        q.choices.forEach((ch, j) => {
+          const b = document.createElement("button"); b.className = "choice"; b.textContent = `${String.fromCharCode(65+j)}. ${ch}`;
+          b.onclick = () => {
+            if (D.quiz[i] !== undefined) return;
+            D.quiz[i] = j; persist();
+            const right = j === q.answer;
+            b.classList.add(right ? "right" : "wrong");
+            if (!right && q.answer !== undefined) wrap.children[q.answer].classList.add("right");
+            if (right) setPts("menti", "q"+i, 1);
+            fb.className = "feedback show " + (right ? "good" : "try"); fb.textContent = right ? "Correct! +1 point." : "Not quite. The green one is the answer.";
+            record("menti", `Q${i+1}: ${q.q}`, ch, { correct: right, points: right ? 1 : 0 });
+          };
+          wrap.appendChild(b);
+        });
+        d.appendChild(wrap);
+        if (D.quiz[i] !== undefined){ wrap.children[D.quiz[i]].classList.add(D.quiz[i] === q.answer ? "right" : "wrong"); if (q.answer !== undefined) wrap.children[q.answer].classList.add("right"); }
+      } else {
+        const t = document.createElement("textarea"); t.rows = 2; t.maxLength = 500; t.value = D.quiz[i] || ""; t.placeholder = "My answer";
+        const b = document.createElement("button"); b.className = "btn"; b.textContent = "Send my answer";
+        b.onclick = () => { if (!t.value.trim()) return t.focus(); D.quiz[i] = t.value.trim(); persist(); setPts("menti", "q"+i, 1); record("menti", `Q${i+1}: ${q.q}`, t.value.trim(), { points: 1 }); fb.className = "feedback show good"; fb.textContent = "Answer recorded. +1 point. Check the save status above."; };
+        const row = document.createElement("div"); row.className = "row"; row.appendChild(b);
+        d.appendChild(t); d.appendChild(row);
+      }
+      d.appendChild(fb); quizBox.appendChild(d);
+    });
+  } else {
+    quizBox.innerHTML = `<p class="empty">Quiz questions are on their way. Check back soon!</p>`;
+  }
+  if (CONFIG.wayground){
+    $("waygroundBox").hidden = false; $("waygroundLink").href = CONFIG.wayground;
+    MAX.menti += 3;
+    $("wgDone").onclick = () => { if (setPts("menti", "wayground", 3)) record("menti", "WayGround quiz", "Finished", { points: 3 }); show("wgFb"); };
+    if ((state.pts.menti || {}).wayground) show("wgFb");
+  }
+
+  /* ---------- Mission 2: case files ---------- */
+  const CASES = [
+    { id:"tower", title:"The number puzzle", q:"A new tower now stands at the World Trade Center. One World Trade Center is exactly 1,776 feet tall. The builders picked that number on purpose. Why?",
+      hints:["The number is a year.","Think about July 4th.","Think of fireworks and a famous signed document."],
+      answer:"<strong>1776</strong><br>That's the year America declared independence. The tower's height is a birthday message to the country. Buildings can carry messages too." },
+    { id:"boats", title:"The great boatlift", q:"On 9/11, bridges, tunnels and subways into Manhattan shut down. Huge crowds were stuck at the southern tip of the island. Then boats started arriving: ferries, tugboats, fishing boats, even private sailboats. Nobody had planned it ahead of time. How many people did the boats carry to safety?",
+      choices:["5,000","50,000","500,000"], correct:2,
+      answer:"<strong>About 500,000 people, in about 9 hours</strong><br>It was one of the biggest boat rescues in history, bigger than the famous Dunkirk rescue in World War II, which took 9 days. Many captains weren't asked, ordered or paid to come. Why do you think they came?" },
+    { id:"gander", title:"The town that said welcome", q:"After the attacks, all flights into the US were stopped, even planes already in the air over the ocean. 38 of those planes landed in one small town. Where?",
+      hints:["It's in Canada.","It's on the island of Newfoundland, and only about 10,000 people live there.","Its name is also the word for a male goose."],
+      answer:"<strong>Gander, Canada</strong><br>Almost 7,000 surprise guests arrived! Schools, churches and homes opened up as places to sleep. Townspeople cooked meals and collected blankets, toothbrushes and clothes. Volunteers even cared for animals stuck on the planes, including two rare apes. Many guests and hosts stayed friends for years, and there's a Broadway musical about it called <em>Come From Away</em>." },
+    { id:"tree", title:"Who am I?", q:"Read each clue and guess who, or what, I am.",
+      hints:["I was found in the rubble at Ground Zero, weeks after 9/11.","I was badly burned, with just one living branch.","People nursed me back to health and then brought me home."], hintsFirst:true,
+      answer:"<strong>The Survivor Tree</strong><br>A Callery pear tree. It was cared for in a park nursery in the Bronx and replanted at the 9/11 Memorial in 2010. Now it blooms with white flowers every spring. Each year, seedlings from it are given to communities that have been through hard times. What helps people, and places, grow back after something terrible?" }
+  ];
+  D.cases = D.cases || {};
+  CASES.forEach((c, i) => {
+    const saved = D.cases[c.id] = D.cases[c.id] || {};
+    const div = document.createElement("div"); div.className = "case";
+    let html = `<div class="num">Case ${i+1}</div><h3>${c.title}</h3><p>${c.q}</p>`;
+    if (c.choices){
+      html += `<div class="choices">${c.choices.map((ch, j) => `<button class="choice" data-j="${j}">${String.fromCharCode(65+j)}. ${ch}</button>`).join("")}</div>`;
+    } else {
+      html += `<label class="muted" for="g-${c.id}">${c.hintsFirst ? "Open clue 1 to start, then guess after each clue" : "My guess"}</label>
+        <input class="text" id="g-${c.id}" maxlength="200" placeholder="Type your guess">
+        <ol class="hints"></ol>
+        <div class="row"><button class="btn hintBtn">${c.hintsFirst ? "Show clue 1" : "Show hint 1"}</button><button class="btn primary revealBtn">Reveal the answer</button></div>
+        <div class="row gotRow" hidden><span>Did you get it?</span><button class="btn gotYes">Yes, I got it</button><button class="btn gotNo">Not this time</button></div>`;
+    }
+    html += `<div class="answer">${c.answer}</div><div class="feedback caseFb"></div>`;
+    div.innerHTML = html; $("caseList").appendChild(div);
+    const ans = div.querySelector(".answer"), fb = div.querySelector(".caseFb");
+
+    if (c.choices){
+      const btns = div.querySelectorAll(".choice");
+      let wrongs = 0;
+      btns.forEach(b => b.onclick = () => {
+        if (saved.done) return;
+        const j = +b.dataset.j;
+        if (j === c.correct){
+          b.classList.add("right"); ans.classList.add("show"); saved.done = true; persist();
+          const p = Math.max(1, 4 - wrongs*2); setPts("cases", c.id, p);
+          fb.className = "feedback show good"; fb.textContent = `Case solved! +${p} points.`;
+          record("cases", c.title, c.choices[j], { correct: true, points: p, detail: `Wrong tries before: ${wrongs}` });
+        } else {
+          wrongs++; b.classList.add("wrong"); b.disabled = true;
+          record("cases", c.title, c.choices[j], { correct: false });
+        }
+      });
+      if (saved.done){ btns[c.correct].classList.add("right"); ans.classList.add("show"); }
+      return;
+    }
+    const hintList = div.querySelector(".hints"), hintBtn = div.querySelector(".hintBtn"), revealBtn = div.querySelector(".revealBtn"),
+          gotRow = div.querySelector(".gotRow"), guess = div.querySelector("input");
+    guess.value = saved.guess || "";
+    guess.addEventListener("input", () => { saved.guess = guess.value; persist(); });
+    const word = c.hintsFirst ? "clue" : "hint";
+    let used = 0;
+    const addHint = () => {
+      if (used >= c.hints.length) return;
+      const li = document.createElement("li"); li.textContent = c.hints[used]; hintList.appendChild(li); used++;
+      hintBtn.textContent = used < c.hints.length ? `Show ${word} ${used+1}` : `No more ${word}s`;
+      hintBtn.disabled = used >= c.hints.length;
+      if (c.hintsFirst) revealBtn.disabled = false;
+    };
+    hintBtn.onclick = () => { record("cases", c.title + " — guess before hint", guess.value.trim() || "(no guess typed)", { detail: `${word}s already used: ${used}` }); addHint(); };
+    if (c.hintsFirst) revealBtn.disabled = true;
+    revealBtn.onclick = () => { record("cases", c.title + " — guess before reveal", guess.value.trim() || "(no guess typed)", { detail: `${word}s used: ${used}` }); ans.classList.add("show"); revealBtn.disabled = true; hintBtn.disabled = true; gotRow.hidden = false; };
+    const finish = got => {
+      const extra = c.hintsFirst ? Math.max(0, used-1) : used;
+      const p = got ? Math.max(1, 4 - extra) : 0;
+      if (got) setPts("cases", c.id, p);
+      saved.done = true; persist(); gotRow.hidden = true;
+      fb.className = "feedback show " + (got ? "good" : "try");
+      fb.textContent = got ? `Case solved! +${p} points.` : "That's okay. Good reporters keep guessing. You still learned something new!";
+      record("cases", c.title, guess.value.trim() || "(no guess typed)", { correct: got ? "Yes (self-check)" : "No (self-check)", points: p, detail: `${word}s used: ${used}` });
+    };
+    div.querySelector(".gotYes").onclick = () => finish(true);
+    div.querySelector(".gotNo").onclick = () => finish(false);
+    if (saved.done){ ans.classList.add("show"); revealBtn.disabled = true; hintBtn.disabled = true; c.hints.forEach(addHint); }
+  });
+  const note = $("interviewNote"); note.value = D.interview || "";
+  $("interviewDone").onclick = () => {
+    const v = note.value.trim(); if (v.length < 3) return note.focus();
+    D.interview = v; persist(); setPts("cases", "interview", 2);
+    record("cases", "Reporter interview: 7,000 strangers", v, { points: 2 }); show("interviewFb");
+  };
+  if (D.interview && (state.pts.cases || {}).interview) show("interviewFb");
+
+  /* ---------- Mission 3: timeline ---------- */
+  const EVENTS = [
+    {l:"B", when:"Over 30 years", t:"Glaciers in the Himalayas keep shrinking and getting weaker."},
+    {l:"F", when:"Weeks before", t:"Satellites spot unusually warm weather high on the mountain."},
+    {l:"D", when:"August 26, morning", t:"A giant piece of glacier breaks off, 17,000 feet up."},
+    {l:"H", when:"Minutes later", t:"A wall of water, mud and rocks races down the river valley."},
+    {l:"A", when:"Within 30 minutes", t:"900 students and teachers run to higher ground just in time."},
+    {l:"G", when:"The next days", t:"Helicopters and 21,000 rescuers search for survivors."},
+    {l:"C", when:"Days later", t:"India sends bridges that can be built from pieces."},
+    {l:"E", when:"What happens next", t:"Scientists watch new lakes that could burst and flood again."}
+  ];
+  const tl = $("tlList");
+  let showWhen = false, hintUsed = false, tries = 0;
+  const clearMarks = () => tl.querySelectorAll("li").forEach(li => li.classList.remove("ok", "no"));
+  function tlShuffle(){
+    const a = EVENTS.slice();
+    do { for (let i = a.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [a[i], a[j]] = [a[j], a[i]]; } } while (a.every((e, i) => e === EVENTS[i]));
+    tl.innerHTML = "";
+    a.forEach(e => {
+      const li = document.createElement("li"); li.draggable = true; li.dataset.l = e.l;
+      li.innerHTML = `<span class="letter">${e.l}</span><span class="txt"><span class="when ${showWhen ? "" : "hidden"}">${e.when}</span>${e.t}</span><span class="mv"><button aria-label="Move up">▲</button><button aria-label="Move down">▼</button></span>`;
+      const [up, down] = li.querySelectorAll(".mv button");
+      up.onclick = () => { if (li.previousElementSibling) tl.insertBefore(li, li.previousElementSibling); clearMarks(); up.focus(); };
+      down.onclick = () => { if (li.nextElementSibling) tl.insertBefore(li.nextElementSibling, li); clearMarks(); down.focus(); };
+      li.addEventListener("dragstart", () => li.classList.add("dragging"));
+      li.addEventListener("dragend", () => { li.classList.remove("dragging"); clearMarks(); });
+      tl.appendChild(li);
+    });
+  }
+  tl.addEventListener("dragover", e => {
+    e.preventDefault();
+    const dragging = tl.querySelector(".dragging"); if (!dragging) return;
+    const after = [...tl.querySelectorAll("li:not(.dragging)")].find(li => e.clientY < li.getBoundingClientRect().top + li.offsetHeight/2);
+    after ? tl.insertBefore(dragging, after) : tl.appendChild(dragging);
+  });
+  tlShuffle();
+  $("tlShuffle").onclick = () => { tlShuffle(); $("tlFb").className = "feedback"; };
+  $("tlHints").onclick = () => { showWhen = true; hintUsed = true; tl.querySelectorAll(".when").forEach(w => w.classList.remove("hidden")); };
+  $("tlCheck").onclick = () => {
+    tries++;
+    const order = [...tl.children].map(li => li.dataset.l);
+    const want = EVENTS.map(e => e.l);
+    const swapOK = order[5] === "C" && order[6] === "G";   // both happen in the days after, either order counts
+    let right = 0;
+    [...tl.children].forEach((li, i) => {
+      const ok = order[i] === want[i] || ((i === 5 || i === 6) && swapOK);
+      li.classList.toggle("ok", ok); li.classList.toggle("no", !ok); if (ok) right++;
+    });
+    let p = 0;
+    if (right === 8){
+      p = Math.max(4, 10 - (tries-1)*2 - (hintUsed ? 2 : 0));
+      setPts("timeline", "done", p);
+      show("tlFb", "good", `All 8 in order! +${p} points.<br><strong>Think about it:</strong> the first two cards happened long before the flood. Big disasters start long before the day they happen.`);
+    } else show("tlFb", "try", `${right} of 8 are in the right spot (green). Move the orange ones and check again.`);
+    record("timeline", `Check #${tries}`, order.join(" "), { correct: `${right}/8`, points: p, detail: hintUsed ? "Used time labels" : "" });
+  };
+
+  /* ---------- Mission 4: two truths and a fib ---------- */
+  const ROUNDS = [
+    {s:["\"Himalaya\" comes from Sanskrit and means \"home of snow.\"","Nepal's flag is the only national flag in the world that isn't a rectangle.","Glaciers are solid blocks of ice that never move."], fib:2,
+     why:"A glacier is actually a slow river of ice creeping downhill. On steep slopes, frozen ground helps hold it in place."},
+    {s:["The Himalayas are called the \"Third Pole\" because they hold more ice than anywhere except the Arctic and Antarctica.","Himalayan glaciers feed giant rivers like the Ganges, Indus, Brahmaputra and Yangtze.","The rivers fed by Himalayan glaciers give water to about 1,000 people."], fib:2,
+     why:"Not 1,000. Those rivers give water to more than a billion people!"},
+    {s:["Seismometers can feel any big shake, not just earthquakes.","Plain water is more destructive than a debris flow.","A debris flow is a fast-moving mix of ice, water, mud and rocks, like wet concrete."], fib:1,
+     why:"It's the other way around. A debris flow is far more destructive than plain water, because it carries mud and rocks with it."},
+    {s:["The glacier broke off about 17,000 feet up, more than 3 miles high.","Mount Everest is shorter than Mount Whitney in California.","Nepal has 8 of the world's 14 mountains taller than 8,000 meters."], fib:1,
+     why:"Mount Everest is 29,032 feet tall. Mount Whitney is 14,505 feet, about half as tall."},
+    {s:["A glacial lake outburst flood happens when a lake freezes solid.","A Bailey bridge is carried in pieces and bolted together, and soldiers could build one without heavy machines.","Tibet sits on the \"Roof of the World,\" a plateau more than 14,000 feet high on average."], fib:0,
+     why:"An outburst flood happens when mud and rocks block a river like a dam, water piles up behind it, and then the dam breaks."},
+    {s:["When the glacier first collapsed, it looked like an earthquake to scientists.","People from 30 countries were near the flood because Nepal is famous for trekking and mountain climbing.","Nepal's flag is a green square with a white star."], fib:2,
+     why:"Nepal's flag is made of two stacked triangles, with a moon and a sun."}
+  ];
+  let rIdx = 0, rMissed = false;
+  const fibRound = $("fibRound"), fibNext = $("fibNext"), fibProg = $("fibProg");
+  function showRound(){
+    const r = ROUNDS[rIdx]; rMissed = false; fibNext.disabled = true;
+    fibProg.textContent = `Round ${rIdx+1} of ${ROUNDS.length}`;
+    fibRound.innerHTML = r.s.map((s, i) => `<button class="stmt" data-i="${i}">${s}</button>`).join("") + `<div class="feedback" id="fibFb"></div>`;
+    fibRound.querySelectorAll(".stmt").forEach(b => b.onclick = () => {
+      if (!fibNext.disabled) return;
+      const i = +b.dataset.i, round = rIdx;
+      if (i === r.fib){
+        b.classList.add("fib");
+        fibRound.querySelectorAll(".stmt").forEach((o, k) => { if (k !== r.fib) o.classList.add("true"); });
+        const p = rMissed ? 1 : 2; setPts("fib", "r"+round, p);
+        show("fibFb", "good", `You found the fib! +${p} ${p === 1 ? "point" : "points"}.<br>${r.why}`);
+        fibNext.disabled = false; if (round === ROUNDS.length-1) fibNext.textContent = "Play again";
+      } else {
+        rMissed = true; b.classList.add("true"); b.disabled = true;
+        show("fibFb", "try", "That one is actually true! Try again.");
+      }
+      record("fib", `Round ${round+1}`, r.s[i], { correct: i === r.fib, points: i === r.fib ? (rMissed ? 1 : 2) : 0 });
+    });
+  }
+  fibNext.onclick = () => { rIdx = (rIdx+1) % ROUNDS.length; if (rIdx === 0) fibNext.textContent = "Next round"; showRound(); };
+  showRound();
+
+  /* ---------- Mission 5: stack ---------- */
+  const ESB = 1454;
+  const STACK = [
+    {id:"glacier", label:"Where the glacier broke", ft:17000},
+    {id:"whitney", label:"Mount Whitney, the tallest mountain in the lower 48 US states", ft:14505},
+    {id:"everest", label:"The top of Mount Everest", ft:29032}
+  ];
+  STACK.forEach(q => {
+    const exact = q.ft / ESB;
+    const d = document.createElement("div"); d.className = "stackq";
+    d.innerHTML = `<h3>${q.label}</h3><p class="muted">${q.ft.toLocaleString()} feet tall</p>
+      <div class="row"><label for="s-${q.id}">Number of Empire State Buildings:</label><input class="text" type="number" min="0" max="60" step="any" id="s-${q.id}"><button class="btn primary">Stack them</button></div>
+      <div class="tower" aria-hidden="true"></div><div class="feedback"></div>`;
+    $("stackList").appendChild(d);
+    const inp = d.querySelector("input"), fb = d.querySelector(".feedback"), tower = d.querySelector(".tower");
+    d.querySelector("button").onclick = () => {
+      const n = parseFloat(inp.value); if (isNaN(n)) return inp.focus();
+      tower.innerHTML = "<span>🏢</span>".repeat(Math.min(60, Math.max(0, Math.round(n))));
+      const ok = Math.abs(n - exact) <= 1;
+      if (ok){
+        setPts("stack", q.id, 3);
+        fb.className = "feedback show good";
+        fb.innerHTML = `Right on! It takes about <strong>${exact.toFixed(1)}</strong> Empire State Buildings. (${q.ft.toLocaleString()} ÷ 1,454 = ${exact.toFixed(1)}) +3 points.`;
+      } else {
+        fb.className = "feedback show try";
+        fb.innerHTML = `Your stack reaches ${Math.round(n*ESB).toLocaleString()} feet. That's too ${n < exact ? "short" : "tall"}! Try ${n < exact ? "more" : "fewer"} buildings.`;
+      }
+      record("stack", q.label, String(n), { correct: ok, points: ok ? 3 : 0, detail: `Exact: ${exact.toFixed(1)}` });
+    };
+  });
+  const BARS = [["Empire State Building",1454],["One World Trade Center",1776],["Mount Whitney",14505],["Where the glacier broke",17000],["Mount Everest",29032]];
+  $("chart").innerHTML = `<h3>How they compare</h3>` + BARS.map(([n, f]) => `<div class="bar"><span class="lbl">${n}</span><span class="fill" style="width:${Math.max(1.5, f/29032*70)}%"></span><span>${f.toLocaleString()} ft</span></div>`).join("");
+  $("towerPhoto").onchange = () => readPhoto($("towerPhoto"), $("towerPrev"));
+  $("buildDone").onclick = async () => {
+    const img = await readPhoto($("towerPhoto"), $("towerPrev"));
+    setPts("stack", "build", 2);
+    record("stack", "Built a tower at home", img ? "Built it (photo attached)" : "Built it", { points: 2, image: img || undefined });
+    show("buildFb");
+  };
+  if ((state.pts.stack || {}).build) show("buildFb");
+
+  /* ---------- Mission 6: robot ---------- */
+  D.robot = D.robot || {};
+  document.querySelectorAll("#robotWhere .chip").forEach(ch => {
+    if (ch.textContent === D.robot.where) ch.setAttribute("aria-pressed", "true");
+    ch.onclick = () => {
+      document.querySelectorAll("#robotWhere .chip").forEach(o => o.setAttribute("aria-pressed", "false"));
+      ch.setAttribute("aria-pressed", "true"); D.robot.where = ch.textContent; persist();
+    };
+  });
+  const rf = { name:"rName", job:"rJob", part:"rPart", never:"rNever" };
+  for (const k in rf){ const el = $(rf[k]); el.value = D.robot[k] || ""; el.addEventListener("input", () => { D.robot[k] = el.value; persist(); }); }
+  $("robotPhoto").onchange = () => readPhoto($("robotPhoto"), $("robotPrev"));
+  $("robotMake").onclick = async () => {
+    const r = D.robot;
+    if (!r.name || !r.job) return $(!r.name ? "rName" : "rJob").focus();
+    const img = await readPhoto($("robotPhoto"), $("robotPrev"));
+    const text = `🤖 ${r.name}\nInvented by ${store.current}\n\nWhere it works: ${r.where || "✨ Somewhere else"}\nIts job: ${r.job}` + (r.part ? `\nSpecial part: ${r.part}` : "") + (r.never ? `\n\nA job a robot should never do: ${r.never}` : "");
+    const card = $("robotCard"); card.textContent = text + "\n\n✅ Answer recorded. Check the save status above."; card.classList.add("show");
+    const p = 3 + (r.part ? 1 : 0) + (r.never ? 1 : 0);
+    setPts("robot", "done", p);
+    record("robot", "Robot job pitch", `${r.name}: ${r.job}`, { points: p, image: img || undefined,
+      detail: `Where: ${r.where || "not chosen"} | Special part: ${r.part || "-"} | Never do: ${r.never || "-"}` });
+  };
+
+  /* ---------- Mission 7: wonder wall ---------- */
+  const wQ = $("wQ"), wStory = $("wStory");
+  wQ.value = D.wonderQ || ""; if (D.wonderStory) wStory.value = D.wonderStory;
+  wQ.addEventListener("input", () => { D.wonderQ = wQ.value; persist(); });
+  wStory.addEventListener("change", () => { D.wonderStory = wStory.value; persist(); });
+  document.querySelectorAll("#starters button").forEach(b => b.onclick = () => { wQ.value = b.textContent.replace("…", " "); wQ.focus(); D.wonderQ = wQ.value; persist(); });
+  $("wMake").onclick = () => {
+    const q = wQ.value.trim(); if (q.length < 8) return wQ.focus();
+    setPts("wonder", "q", 3);
+    record("wonder", "Wonder Wall question", q, { detail: wStory.value, points: 3 });
+    show("wFb", "good", "Question recorded. Check the save status above. +3 points.");
+    wQ.value = ""; D.wonderQ = ""; persist();
+    setTimeout(loadWall, 4000);
+  };
+  async function loadWall(){
+    const wall = $("wall");
+    if (!CONFIG.endpoint){ wall.innerHTML = `<p class="empty">The wall connects once your club leader turns it on.</p>`; return; }
+    wall.innerHTML = `<p class="empty">Loading questions…</p>`;
+    try {
+      const r = await fetch(CONFIG.endpoint + "?action=wall"); const j = await r.json();
+      if (j.enabled === false){ wall.innerHTML = `<p class="empty">Questions are saved privately for your club leader. The shared wall is turned off.</p>`; return; }
+      if (!j.posts || !j.posts.length){ wall.innerHTML = `<p class="empty">No questions yet. Be the first to post one!</p>`; return; }
+      wall.innerHTML = "";
+      j.posts.forEach(p => {
+        const d = document.createElement("div"); d.className = "post";
+        const mine = String(p.reporter).toLowerCase() === store.current.toLowerCase();
+        d.innerHTML = `<div class="by">${escapeHtml(p.reporter)} asked about ${escapeHtml(p.story || "a story")}</div><div class="q">${escapeHtml(p.question)}</div>` +
+          (p.replies.length ? `<ul class="reps">${p.replies.map(x => `<li><strong>${escapeHtml(x.reporter)}:</strong> ${escapeHtml(x.reply)}</li>`).join("")}</ul>` : "") +
+          (mine ? "" : `<div class="reply-row"><input class="text" maxlength="300" placeholder="Write a reply…" aria-label="Reply to ${escapeHtml(p.reporter)}"><button class="btn">Reply</button></div>`);
+        if (!mine){
+          const inp = d.querySelector("input"), btn = d.querySelector(".reply-row button");
+          btn.onclick = () => {
+            const v = inp.value.trim(); if (v.length < 3) return inp.focus();
+            record("wonder", "Reply to a friend", v, { postId: p.id, detail: `Reply to ${p.reporter}: ${p.question}`.slice(0, 400), points: 3 });
+            setPts("wonder", "reply", 3);
+            const ul = d.querySelector(".reps") || d.insertBefore(Object.assign(document.createElement("ul"), { className: "reps" }), d.querySelector(".reply-row"));
+            ul.insertAdjacentHTML("beforeend", `<li><strong>${escapeHtml(store.current)}:</strong> ${escapeHtml(v)}</li>`);
+            inp.value = "";
+          };
+        }
+        wall.appendChild(d);
+      });
+    } catch (e) {
+      wall.innerHTML = `<p class="empty">The wall couldn't load. Check your internet and tap "Show the newest questions."</p>`;
+    }
+  }
+  $("wallRefresh").onclick = loadWall;
+  loadWall();
+}
+</script>
+</body>
+</html>
