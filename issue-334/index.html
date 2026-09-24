@@ -207,13 +207,13 @@ footer{padding:30px 0 50px;text-align:center;color:var(--ink-soft);font-size:.95
   <div class="note">
     <h3>A note for parents</h3>
     <p>We ran out of time for our main stories on Wednesday, so here they are as games. Every mission is optional, and kids can do them in any order, a few at a time. Most take 10 to 15 minutes. Answers save automatically for your child's club leader.</p>
-    <p>The 9/11 case files focus on the helpers, but the topic can feel heavy. You may want to preview Mission 2 and do it together. The block tower in Mission 5 needs a grown-up nearby. If you upload a photo, please show only the drawing or tower, not your child's face.</p>
+    <p>The 9/11 case files focus on the helpers, but the topic can feel heavy. You may want to preview Missions 1 and 2 and do them together. The block tower in Mission 5 needs a grown-up nearby. If you upload a photo, please show only the drawing or tower, not your child's face.</p>
   </div>
 </div>
 
 <nav class="missions" aria-label="Missions">
   <ul>
-    <li><a href="#menti" data-m="menti">📊 Quiz <span class="tick">✓</span></a></li>
+    <li><a href="#menti" data-m="menti">🕵️ Real or fake <span class="tick">✓</span></a></li>
     <li><a href="#cases" data-m="cases">🗂️ Case files <span class="tick">✓</span></a></li>
     <li><a href="#timeline" data-m="timeline">⏳ Timeline <span class="tick">✓</span></a></li>
     <li><a href="#fib" data-m="fib">🏔️ Truths &amp; fib <span class="tick">✓</span></a></li>
@@ -227,9 +227,10 @@ footer{padding:30px 0 50px;text-align:center;color:var(--ink-soft);font-size:.95
 
 <section class="mission" id="menti" style="--c:var(--blue)">
   <div class="mhead">
-    <div><h2>Mission 1: The Issue 334 quiz</h2><span class="tag">About 10 minutes</span></div>
+    <div><h2>Mission 1: Real or fake? 9/11 edition</h2><span class="tag">About 10 minutes</span></div>
     <div class="earned" data-earned="menti">0 pts</div>
   </div>
+  <p>Good reporters check their facts. Read each statement and decide: is it real or fake? You get 1 point for each one you get right.</p>
   <div id="quizBox"></div>
   <div id="waygroundBox" hidden>
     <p>Play the WayGround quiz too. Use your real first name when it asks.</p>
@@ -369,7 +370,24 @@ const CONFIG = {
   // Quiz questions for Mission 1.
   // Multiple choice: { q: "Question?", choices: ["A", "B", "C"], answer: 1 }   (answer = position, starting at 0)
   // Open answer:     { q: "Question?" }
-  quiz: []
+  quiz: [
+    { q: "In 1974, a tightrope walker walked on a wire strung between the tops of the Twin Towers.", choices: ["Real", "Fake"], answer: 0, why: "Philippe Petit crossed eight times, 110 stories up, without permission. The towers had opened just the year before." },
+    { q: "On 9/11, every plane flying over the US was ordered to land. About 4,500 planes landed within a few hours.", choices: ["Real", "Fake"], answer: 0, why: "It had never happened before. Air traffic controllers guided every plane safely to the ground." },
+    { q: "After 9/11, every airport in the world closed for a week.", choices: ["Real", "Fake"], answer: 1, why: "Most of the world kept flying. US airspace closed for about two days, and Canada took in about 255 planes that couldn't land in the US." },
+    { q: "Only firefighters helped rescue people on 9/11.", choices: ["Real", "Fake"], answer: 1, why: "Police officers, paramedics, doctors, nurses, construction workers, boat captains and ordinary people all helped. Heroes came in every kind of uniform, and without one." },
+    { q: "Everyone who died on 9/11 was from the United States.", choices: ["Real", "Fake"], answer: 1, why: "People from more than 90 countries died that day. That's one reason the whole world mourned together." },
+    { q: "Two days after 9/11, the band at Buckingham Palace in London played the US national anthem.", choices: ["Real", "Fake"], answer: 0, why: "It was a sign that America's friends were grieving too." },
+    { q: "On 9/11, the Twin Towers were the tallest buildings in the world.", choices: ["Real", "Fake"], answer: 1, why: "They were the tallest when they opened in 1973, but by 2001 taller buildings stood in Chicago and Malaysia. Records get broken as builders learn new tricks." },
+    { q: "The Tribute in Light is made with lasers.", choices: ["Real", "Fake"], answer: 1, why: "It's made with 88 powerful searchlights, arranged in two squares to match the shapes of the towers." },
+    { q: "The Tribute in Light is sometimes switched off for a few minutes to protect birds.", choices: ["Real", "Fake"], answer: 0, why: "Migrating birds can get confused and circle in the beams. Volunteers count them, and when too many get trapped, the lights go dark so the birds can fly on." },
+    { q: "The new One World Trade Center stands exactly where the Twin Towers stood.", choices: ["Real", "Fake"], answer: 1, why: "The towers' footprints are now the two memorial pools. The new tower was built nearby, so those spaces could be kept for remembering." },
+    { q: "In 2002, the Maasai people of Kenya gave 14 cows to the United States as a gift of comfort.", choices: ["Real", "Fake"], answer: 0, why: "For the Maasai, cows are among the most precious things a family owns. Giving them showed how much they cared." },
+    { q: "Every year on September 11, schools and offices close for a national holiday.", choices: ["Real", "Fake"], answer: 1, why: "It's a National Day of Service and Remembrance. Instead of a day off, many people volunteer, and many pause for a moment of silence at 8:46 a.m." },
+    { q: "The last steel column removed from Ground Zero was covered in messages and photos, and it's now in the 9/11 museum.", choices: ["Real", "Fake"], answer: 0, why: "Rescue and recovery workers signed it and left notes for the people they had lost." },
+    { q: "At the Flight 93 memorial, a tower holds 40 wind chimes, one for each passenger and crew member.", choices: ["Real", "Fake"], answer: 0, why: "It's called the Tower of Voices. Each chime plays a different note, like a different voice." },
+    { q: "The Pentagon is in Washington, DC.", choices: ["Real", "Fake"], answer: 1, why: "It's in Arlington, Virginia, just across the river from Washington, DC. Many people mix these up because it's so close." },
+    { q: "US troops captured Osama bin Laden and put him on trial.", choices: ["Real", "Fake"], answer: 1, why: "It took almost 10 years to find him. In 2011, US special forces found him hiding in a house in Pakistan, and he was killed during the raid. He was never put on trial." }
+  ]
 };
 
 document.getElementById("setupNotice").hidden = Boolean(CONFIG.endpoint);
@@ -455,7 +473,7 @@ function readPhoto(input, preview){
 
 /* ---------- points ---------- */
 const MAX = { menti: 0, cases: 18, timeline: 10, fib: 12, stack: 11, robot: 5, wonder: 6 };
-const NAMES = { menti: "Issue 334 quiz", cases: "9/11 case files", timeline: "Timeline sort", fib: "Two truths and a fib", stack: "Stack the skyscrapers", robot: "Robot job pitch", wonder: "Wonder Wall" };
+const NAMES = { menti: "Real or fake", cases: "9/11 case files", timeline: "Timeline sort", fib: "Two truths and a fib", stack: "Stack the skyscrapers", robot: "Robot job pitch", wonder: "Wonder Wall" };
 function missionTotal(m){ return Object.values((state && state.pts[m]) || {}).reduce((a, b) => a + b, 0); }
 function setPts(m, sub, v){
   state.pts[m] = state.pts[m] || {};
@@ -524,7 +542,7 @@ function initMissions(){
       if (q.choices){
         const wrap = document.createElement("div"); wrap.className = "choices";
         q.choices.forEach((ch, j) => {
-          const b = document.createElement("button"); b.className = "choice"; b.textContent = `${String.fromCharCode(65+j)}. ${ch}`;
+          const b = document.createElement("button"); b.className = "choice"; b.textContent = q.why ? ch : `${String.fromCharCode(65+j)}. ${ch}`;
           b.onclick = () => {
             if (D.quiz[i] !== undefined) return;
             D.quiz[i] = j; persist();
@@ -532,13 +550,13 @@ function initMissions(){
             b.classList.add(right ? "right" : "wrong");
             if (!right && q.answer !== undefined) wrap.children[q.answer].classList.add("right");
             if (right) setPts("menti", "q"+i, 1);
-            fb.className = "feedback show " + (right ? "good" : "try"); fb.textContent = right ? "Correct! +1 point." : "Not quite. The green one is the answer.";
+            fb.className = "feedback show " + (right ? "good" : "try"); fb.innerHTML = (right ? "Correct! +1 point." : `Not quite. It's ${escapeHtml(q.choices[q.answer]).toLowerCase()}.`) + (q.why ? `<br>${escapeHtml(q.why)}` : "");
             record("menti", `Q${i+1}: ${q.q}`, ch, { correct: right, points: right ? 1 : 0 });
           };
           wrap.appendChild(b);
         });
         d.appendChild(wrap);
-        if (D.quiz[i] !== undefined){ wrap.children[D.quiz[i]].classList.add(D.quiz[i] === q.answer ? "right" : "wrong"); if (q.answer !== undefined) wrap.children[q.answer].classList.add("right"); }
+        if (D.quiz[i] !== undefined){ wrap.children[D.quiz[i]].classList.add(D.quiz[i] === q.answer ? "right" : "wrong"); if (q.answer !== undefined) wrap.children[q.answer].classList.add("right"); if (q.why){ fb.className = "feedback show " + (D.quiz[i] === q.answer ? "good" : "try"); fb.textContent = q.why; } }
       } else {
         const t = document.createElement("textarea"); t.rows = 2; t.maxLength = 500; t.value = D.quiz[i] || ""; t.placeholder = "My answer";
         const b = document.createElement("button"); b.className = "btn"; b.textContent = "Send my answer";
@@ -561,7 +579,7 @@ function initMissions(){
   /* ---------- Mission 2: case files ---------- */
   const CASES = [
     { id:"tower", title:"The number puzzle", q:"A new tower now stands at the World Trade Center. One World Trade Center is exactly 1,776 feet tall. The builders picked that number on purpose. Why?",
-      hints:["The number is a year.","Think about July 4th.","Think of fireworks and a famous signed document."],
+      hints:["The number is a year.","Think about July 4th, fireworks, and a famous signed document."],
       answer:"<strong>1776</strong><br>That's the year America declared independence. The tower's height is a birthday message to the country. Buildings can carry messages too." },
     { id:"boats", title:"The great boatlift", q:"On 9/11, bridges, tunnels and subways into Manhattan shut down. Huge crowds were stuck at the southern tip of the island. Then boats started arriving: ferries, tugboats, fishing boats, even private sailboats. Nobody had planned it ahead of time. How many people did the boats carry to safety?",
       choices:["5,000","50,000","500,000"], correct:2,
