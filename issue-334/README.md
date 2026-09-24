@@ -44,3 +44,5 @@ References:
 - https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
 
 The reporter packet is linked on the sign-in screen and in the parent note. The answer key is not published. The Session 3 presentation supplied a teacher management URL, so the student button opens https://wayground.com/join and asks for the club leader’s code. Replace CONFIG.wayground with a student assignment share link when available.
+
+The student Wayground button now uses the supplied session link with join code 30074509. Live-session availability is controlled by Wayground and the host.
