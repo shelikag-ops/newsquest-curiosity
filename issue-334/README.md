@@ -24,7 +24,7 @@ In Settings → Pages, select Deploy from a branch, then the intended branch and
 - Wall and Replies: questions and replies for review. The public wall is disabled by default; answers still reach the private Sheet. To deliberately show the wall on the public website, set Script Property `ENABLE_PUBLIC_WALL` to `true`. Anyone with the endpoint can then read non-hidden posts and reporter names. Hide checkboxes remove posts from the public wall.
 - Photos: stored privately in the owner's NewsQuest uploads Drive folder. Their links appear in Responses.
 
-Only submitted actions are sent; unfinished typing remains on the device. Mission 1's inline quiz is currently empty. The optional Wayground link logs self-reported completion only; actual Wayground attempts and quiz results must be imported separately. Keep those results separate from activity points.
+Only submitted actions are sent; unfinished typing remains on the device. Mission 1 contains 16 Real or fake questions with explanations. The optional Wayground link logs self-reported completion only; actual Wayground attempts and quiz results must be imported separately. Keep those results separate from activity points.
 
 ## Analyze easily
 
