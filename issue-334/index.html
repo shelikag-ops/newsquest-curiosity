@@ -168,6 +168,7 @@ footer{padding:30px 0 50px;text-align:center;color:var(--ink-soft);font-size:.95
 </style>
 </head>
 <body>
+<div id="setupNotice" role="status" style="background:#FFF1E0;border-bottom:2px solid #E07A1F;padding:14px 20px;text-align:center;font-weight:bold">Preview: Google Sheets is not connected yet. Answers are not being sent to your club leader. Please wait for the club leader before starting.</div>
 <header class="hero">
   <div class="wrap hero-grid">
     <div>
@@ -370,6 +371,8 @@ const CONFIG = {
   // Open answer:     { q: "Question?" }
   quiz: []
 };
+
+document.getElementById("setupNotice").hidden = Boolean(CONFIG.endpoint);
 
 /* ---------- saved progress, one record per reporter ---------- */
 const KEY = "newsquest-334-v2";

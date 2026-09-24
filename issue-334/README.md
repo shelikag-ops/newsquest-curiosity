@@ -1,6 +1,6 @@
 # NewsQuest: GitHub Pages + Google Sheets
 
-This folder contains the prepared Issue 334 website and Google Apps Script backend. It is not deployed yet. The originals in Downloads are unchanged.
+This folder contains the prepared Issue 334 website and Google Apps Script backend. The website is published as a preview. Google Sheets answer collection is not connected yet. The originals in Downloads are unchanged.
 
 ## Connect the Sheet
 
@@ -13,7 +13,7 @@ This folder contains the prepared Issue 334 website and Google Apps Script backe
 
 ## Publish on GitHub
 
-The prepared repository location is `issue-334/` in `shelikag-ops/newsquest-curiosity`. Merge the prepared branch after setting and testing the endpoint. Upload `index.html` and `.nojekyll` to that folder if doing this manually. You may also store this README and the script as source files; Apps Script must still be deployed separately. Inspect existing repository content before replacing any file.
+The prepared repository location is `issue-334/` in `shelikag-ops/newsquest-curiosity`. The page displays a preview notice until CONFIG.endpoint is set. Upload `index.html` and `.nojekyll` to that folder if doing this manually. You may also store this README and the script as source files; Apps Script must still be deployed separately. Inspect existing repository content before replacing any file.
 
 In Settings → Pages, select Deploy from a branch, then the intended branch and root folder (or the repository's existing publishing configuration). GitHub supplies the published website URL.
 
