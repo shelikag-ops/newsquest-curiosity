@@ -193,6 +193,7 @@ footer{padding:30px 0 50px;text-align:center;color:var(--ink-soft);font-size:.95
     <h2>Who's reporting today?</h2>
     <p>Tap your name to unlock the missions. Your answers go straight to your club leader, so pick your own name.</p>
     <div class="roster" id="roster"></div>
+    <p class="muted" style="margin-top:16px">Prefer less screen time? <a href="NewsQuest-334-Reporter-Packet.pdf" target="_blank" rel="noopener">Print the reporter packet (PDF)</a>. It has the same seven missions and needs only a pencil.</p>
     <div class="other" id="otherBox" hidden>
       <label for="otherName"><strong>Type your first name and last initial</strong></label>
       <div class="row"><input class="text" id="otherName" placeholder="e.g. Maya K" maxlength="40"><button class="btn primary" id="otherGo">Start my missions</button></div>
@@ -206,7 +207,7 @@ footer{padding:30px 0 50px;text-align:center;color:var(--ink-soft);font-size:.95
 <div class="wrap">
   <div class="note">
     <h3>A note for parents</h3>
-    <p>We ran out of time for our main stories on Wednesday, so here they are as games. Every mission is optional, and kids can do them in any order, a few at a time. Most take 10 to 15 minutes. Answers save automatically for your child's club leader.</p>
+    <p>We ran out of time for our main stories on Wednesday, so here they are as games. Every mission is optional, and kids can do them in any order, a few at a time. Most take 10 to 15 minutes. Answers save automatically for your child's club leader. Prefer paper? <a href="NewsQuest-334-Reporter-Packet.pdf" target="_blank" rel="noopener">Print the reporter packet</a>.</p>
     <p>The 9/11 case files focus on the helpers, but the topic can feel heavy. You may want to preview Missions 1 and 2 and do them together. The block tower in Mission 5 needs a grown-up nearby. If you upload a photo, please show only the drawing or tower, not your child's face.</p>
   </div>
 </div>
@@ -233,8 +234,8 @@ footer{padding:30px 0 50px;text-align:center;color:var(--ink-soft);font-size:.95
   <p>Good reporters check their facts. Read each statement and decide: is it real or fake? You get 1 point for each one you get right.</p>
   <div id="quizBox"></div>
   <div id="waygroundBox" hidden>
-    <p>Play the WayGround quiz too. Use your real first name when it asks.</p>
-    <div class="row"><a class="btn" id="waygroundLink" href="#" target="_blank" rel="noopener">Open the WayGround quiz</a><button class="btn" id="wgDone">I finished WayGround (+3)</button></div>
+    <p>Play the Issue 334 Wayground quiz too. Enter the code shared by your club leader in Zoom chat, then use your own first name. If the code has expired, ask your club leader for a new link.</p>
+    <div class="row"><a class="btn" id="waygroundLink" href="#" target="_blank" rel="noopener">Join the Wayground quiz</a><button class="btn" id="wgDone">I finished WayGround (+3)</button></div>
     <div class="feedback good" id="wgFb">Nice work! 3 points added.</div>
   </div>
 </section>
@@ -362,7 +363,7 @@ const CONFIG = {
   issue: "334",
 
   // Optional: WayGround join link. Leave "" to hide the button.
-  wayground: "",
+  wayground: "https://wayground.com/join",
 
   // Names kids tap to sign in. Check the spellings.
   roster: ["Amav", "Arika", "Danny", "Jonathan", "Kabir", "Kashika", "Monica", "Prisha", "Sarah", "Sehaj", "Umair"],
