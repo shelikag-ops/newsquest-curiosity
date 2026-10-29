@@ -48,7 +48,6 @@ svg{width:100%;height:100%;display:block;cursor:crosshair;touch-action:none}
   <div class="sub">
     <b>Done? Send your answers</b>
     <input id="nm" placeholder="Your first name" autocomplete="off">
-    <select id="tm"><option value="">Your team</option><option>Red</option><option>Blue</option></select>
     <input id="em" type="email" placeholder="Email for your score report" autocomplete="email">
     <div class="note">A parent&apos;s email is fine. Your score report goes there.</div>
     <button class="btn" id="go">Submit my answers</button>
@@ -64,13 +63,13 @@ svg{width:100%;height:100%;display:block;cursor:crosshair;touch-action:none}
 <script>
 const CFG={"issue": "340", "date": "Oct 23, 2026", "title": "NewsQuest Map Hunt: Issue 340", "intro": "Each clue is a mystery <b>country<\/b>, <b>US state<\/b> or <b>sea<\/b> from this week's Week Junior. First, type which place it is. Then tap the map to drop your pin inside it. Use what you know, not a search engine! Each clue is worth 4 points: 1 for the right name and up to 3 for the pin. Made a mistake? Tap the map again to move a pin, press <b>Remove pin<\/b>, or use the &#8630; undo button.", "places": [{"n": 1, "kind": "country", "hint": "Most Nobel Prizes are handed out in this country's capital on December 10.", "level": "medium"}, {"n": 2, "kind": "country", "hint": "The Nobel Peace Prize is the only Nobel Prize given in this country.", "level": "medium"}, {"n": 3, "kind": "country", "hint": "Peace Prize winner Navi Pillay grew up here. F1 last raced in Africa in this country, in 1993.", "level": "medium"}, {"n": 4, "kind": "country", "hint": "Students across this country marched for better schools.", "level": "easy"}, {"n": 5, "kind": "sea", "hint": "Karl Bushby walked across this frozen sea between Alaska and Russia.", "level": "hard"}, {"n": 6, "kind": "sea", "hint": "Bushby swam across it from Kazakhstan to Azerbaijan. Put your pin in the water.", "level": "medium"}, {"n": 7, "kind": "sea", "hint": "Bushby swam across this narrow sea in October, on the last part of his walk home to England.", "level": "medium"}, {"n": 8, "kind": "state", "hint": "The USS Abraham Lincoln came home to San Diego, in this state.", "level": "easy"}, {"n": 9, "kind": "state", "hint": "The first national women's rights convention met in this state in 1850.", "level": "hard"}, {"n": 10, "kind": "state", "hint": "America's newest national park, Chiricahua, is in this state.", "level": "medium"}, {"n": 11, "kind": "state", "hint": "Two giant pandas will make their US debut at the zoo in this state's capital, Atlanta.", "level": "medium"}, {"n": 12, "kind": "country", "hint": "A brand-new giant waterlily was found in a river in this country.", "level": "medium"}, {"n": 13, "kind": "country", "hint": "Messi played his last game for this country.", "level": "easy"}, {"n": 14, "kind": "country", "hint": "Floods hit this long, thin country's capital, Santiago.", "level": "medium"}, {"n": 15, "kind": "country", "hint": "This country reported its first-ever Ebola cases.", "level": "medium"}, {"n": 16, "kind": "country", "hint": "Formula 1 plans to race in this small country in the early 2030s.", "level": "hard"}, {"n": 17, "kind": "country", "hint": "The country at the center of the war in the news.", "level": "medium"}, {"n": 18, "kind": "country", "hint": "The kiwi-feather cloak came home to this island country.", "level": "easy"}, {"n": 19, "kind": "country", "hint": "The Tiramisu World Cup is held in this country.", "level": "easy"}, {"n": 20, "kind": "country", "hint": "A school is being turned into homes for families in this country.", "level": "easy"}, {"n": 21, "kind": "country", "hint": "Tommie Smith and John Carlos raised their fists at the 1968 Olympics in this country.", "level": "easy"}]}, ENDPOINT="https://script.google.com/macros/s/AKfycbyiJLzMMuM_bfCO4Ziy-X3F4LamSuAezX7LpQTuPrl3OH2rREOctxWkzUYlA4_eAJjO/exec", KIND={"country": "Country", "state": "US state", "sea": "Sea"};
 const LS="nq-map-"+CFG.issue+"c";
-let pins={}, guesses={}, hist=[], cur=null, left=0, sid=null, sent=false;
+let pins={}, guesses={}, hist=[], cur=null, left=0, sid=null;
 const $=s=>document.querySelector(s), esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const nm=$("#nm"),tm=$("#tm"),em=$("#em");
-try{const s=JSON.parse(localStorage.getItem(LS)||"{}");pins=s.pins||{};guesses=s.guesses||{};hist=s.hist||[];left=s.left||0;nm.value=s.nm||"";tm.value=s.tm||"";em.value=s.em||"";sid=s.sid||null;sent=!!s.sent}catch(e){}
-const store=()=>{try{localStorage.setItem(LS,JSON.stringify({pins,guesses,hist,left,nm:nm.value,tm:tm.value,em:em.value,sid,sent}))}catch(e){}};
+const nm=$("#nm"),em=$("#em");
+try{const s=JSON.parse(localStorage.getItem(LS)||"{}");pins=s.pins||{};guesses=s.guesses||{};hist=s.hist||[];left=s.left||0;nm.value=s.nm||"";em.value=s.em||"";sid=s.sid||null}catch(e){}
+const store=()=>{try{localStorage.setItem(LS,JSON.stringify({pins,guesses,hist,left,nm:nm.value,em:em.value,sid}))}catch(e){}};
 document.addEventListener("visibilitychange",()=>{if(document.hidden){left++;store()}});
-nm.oninput=store;tm.oninput=store;em.oninput=store;
+nm.oninput=store;em.oninput=store;
 $("#intro").innerHTML=CFG.intro;
 
 const svg=d3.select("#map"), g=svg.append("g");
@@ -142,7 +141,6 @@ addEventListener("resize",draw);
 
 $("#go").onclick=async()=>{
   const out=$("#out");
-  if(sent){out.innerHTML='<p class="note">You already sent your answers. Only your first try counts.</p>';return}
   if(!ENDPOINT){out.innerHTML='<p class="note">Submissions open soon. Your answers are saved on this device.</p>';return}
   const name=nm.value.trim(),mail=em.value.trim();
   if(!name){nm.focus();out.innerHTML='<p class="note">Please type your first name.</p>';return}
@@ -152,12 +150,12 @@ $("#go").onclick=async()=>{
   sid="mh"+Date.now().toString(36)+Math.random().toString(36).slice(2,8);store();
   const go=$("#go");go.disabled=true;go.textContent="Sending...";
   try{
-    const r=await fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({issue:CFG.issue,id:sid,name,team:tm.value,email:mail,pins,guesses,left})});
+    const r=await fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({issue:CFG.issue,id:sid,name,email:mail,pins,guesses,left})});
     const j=await r.json();if(!j.ok)throw new Error(j.error||"Something went wrong");
     out.innerHTML=`<p style="font-size:20px;margin:8px 0"><b>${j.score}</b> out of ${j.max} points!</p>`+
       `<p class="note">${j.emailed==="yes"?"Your score report is on its way to "+esc(mail)+".":"We saved your score, but the email didn't send. Tell your host."}</p>`+
       `<table class="res" style="width:100%;font-size:12.5px;border-collapse:collapse">`+j.per.map(p=>`<tr><td>Clue ${p.n}: ${esc(p.guess||"(blank)")} ${p.nameOk?"&#10003;":"&#10007;"}</td><td style="text-align:right;white-space:nowrap">${p.km===null?"no pin":p.km<=25?"inside!":p.km.toLocaleString()+" km away"}</td><td style="text-align:center"><b>${p.pts}</b></td></tr>`).join("")+`</table>`;
-    go.textContent="Sent!";sent=true;store();out.innerHTML+=`<p class="note">Only your first try counts. We'll go over the answers together at NewsQuest!</p>`;
+    go.disabled=false;go.textContent="Send again";out.innerHTML+=`<p class="note">Want to improve? Change your answers and press Send again. We'll go over the answers together at NewsQuest!</p>`;
   }catch(e){go.disabled=false;go.textContent="Submit my answers";out.innerHTML=`<p class="note">Couldn't send: ${esc(e.message)}. Check your internet and try again.</p>`}
 };
 (async()=>{const [W,S]=await Promise.all([fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json').then(r=>r.json()),fetch('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json').then(r=>r.json())]);
